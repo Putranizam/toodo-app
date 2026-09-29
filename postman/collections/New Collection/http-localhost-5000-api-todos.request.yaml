@@ -1,0 +1,27 @@
+$kind: http-request
+name: http://localhost:5000/api/todos
+description: ""
+url: http://localhost:5000/api/todos
+method: POST
+body:
+  type: json
+  content: "{\r\n    \"task\" : \"uji coba\"\r\n}"
+auth:
+  type: bearer
+  credentials:
+    token: "{{supabase_service_role_api_key_17i8}}"
+scripts:
+  - type: afterResponse
+    code: "const res = pm.response.json();\r
+
+      const token = res.token || (res.data && res.data.token);\r
+
+      if (token) {\r
+
+      \    pm.globals.set(\"jwt_token\", token);\r
+
+      \    console.log(\"Token tersimpan:\", token);\r
+
+      }"
+    language: text/javascript
+order: 314661576397828
